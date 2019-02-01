@@ -77,9 +77,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 
 	@Override
-	public int inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
-		System.out.println("Inquiring about balance");
-		return 0;
+	public double inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
+		Account account = getAccount(accountnum, sessionID);
+
+		return account.getBalance();
 	}
 
 	@Override
@@ -89,10 +90,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		return null;
 	}
 
-	@Override
-	public Account accountDetails(long sessionID) throws RemoteException, InvalidSessionException {
+	public Account getAccount(int accountNumber, long sessionID) throws RemoteException, InvalidSessionException {
 		for(Account acc : accounts) {
-			if(sessionID == acc.getSessionID()) {
+			if(acc.getAccNum() == accountNumber && acc.getSessionID() == sessionID) {
 				return acc;
 			}
 		}
