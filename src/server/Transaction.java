@@ -42,7 +42,8 @@ public class Transaction implements Serializable{
 			/*} else {
 				throw new InsufficientFundsException();
 			}*/
-		}		
+		}
+		
 	}
 	
 	public double getBalance() {

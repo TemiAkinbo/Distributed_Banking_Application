@@ -38,6 +38,7 @@ public class Account implements Serializable {
 	
 	public void makeTransaction(Transaction t) {
 		this.transactions.add(t);
+		this.setBalance(t.getBalance());
 	}
 	
 	public void startNewSession() {
