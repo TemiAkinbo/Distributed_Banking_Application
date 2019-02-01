@@ -77,9 +77,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 
 	@Override
-	public Account inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
-		// TODO Auto-generated method stub
-		return null;
+	public int inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
+		System.out.println("Inquiring about balance");
+		return 0;
 	}
 
 	@Override
