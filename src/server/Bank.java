@@ -24,11 +24,20 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 
 	public Bank() throws RemoteException {
 		super();
+
+		Account account1 = new Account("User1", "pass1");
+		account1.setBalance(1500);
+
+		Account account2 = new Account("User2", "pass2");
+		account2.setBalance(1000);
+
+		Account account3 = new Account("User2", "pass2");
+		account3.setBalance(50);
 		
 		accounts = new ArrayList<Account>();		
-		accounts.add(new Account("User1", "pass1"));
-		accounts.add(new Account("User2", "pass2"));
-		accounts.add(new Account("User3", "pass3"));
+		accounts.add(account1);
+		accounts.add(account2);
+		accounts.add(account3);
 	}
 	
 	public static void main (String[] args) {
@@ -53,9 +62,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		for(Account account : accounts) {
 			if (username.equals(account.getUsername()) && password.equals(account.getPassword())) {
 				
-				System.out.println("Account: " + account.getAccNum() + " just logged in" );
 				account.startNewSession();
-								
+
+				System.out.println("Account: " + account.getAccNum() + " just logged in with Session ID " + account.getSessionID());
+
 				return account.getSessionID();
 			}
 		}
@@ -77,9 +87,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 
 	@Override
-	public int inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
-		System.out.println("Inquiring about balance");
-		return 0;
+	public double inquiry(int accountnum, long sessionID) throws RemoteException, InvalidSessionException {
+		Account account = getAccount(accountnum, sessionID);
+
+		return account.getBalance();
 	}
 
 	@Override
@@ -89,10 +100,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		return null;
 	}
 
-	@Override
-	public Account accountDetails(long sessionID) throws RemoteException, InvalidSessionException {
+	public Account getAccount(int accountNumber, long sessionID) throws RemoteException, InvalidSessionException {
 		for(Account acc : accounts) {
-			if(sessionID == acc.getSessionID()) {
+			if(acc.getAccNum() == accountNumber && acc.getSessionID() == sessionID) {
 				return acc;
 			}
 		}
