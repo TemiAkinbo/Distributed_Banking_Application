@@ -74,7 +74,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 
 	@Override
 	public double deposit(int accountnum, double amount, long sessionID)
-			throws RemoteException, InvalidSessionException {
+			throws RemoteException, InvalidSessionException, InsufficientFundsException {
 		Account account = getAccount(accountnum, sessionID);
 		
 		Transaction deposit = new Transaction(account, "Deposit");
@@ -88,8 +88,13 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	@Override
 	public double withdraw(int accountnum, double amount, long sessionID)
 			throws RemoteException, InvalidSessionException, InsufficientFundsException {
-		// TODO Auto-generated method stub
-		return 0;
+		Account account = getAccount(accountnum, sessionID);
+		
+		Transaction withdraw = new Transaction(account, "Withdraw");
+		withdraw.setAmount(amount);
+		account.makeTransaction(withdraw);
+				
+		return account.getBalance();
 	}
 
 	@Override

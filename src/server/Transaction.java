@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import exceptions.InsufficientFundsException;
+
 public class Transaction implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -30,18 +32,18 @@ public class Transaction implements Serializable{
 		return this.type;
 	}
 	
-	public void setAmount(double amount){
+	public void setAmount(double amount) throws InsufficientFundsException{
 		this.amount = amount;
 		
 		if (this.type.equals("Deposit")) {
 			this.balance = this.account.getBalance() + amount;
 		}
 		else if (this.type.equals("Withdraw")) {
-			//if(this.account.getBalance() >= amount) {
+			if(this.account.getBalance() >= amount) {
 			this.balance = this.account.getBalance() - amount;
-			/*} else {
+			} else {
 				throw new InsufficientFundsException();
-			}*/
+			}
 		}
 		
 	}
