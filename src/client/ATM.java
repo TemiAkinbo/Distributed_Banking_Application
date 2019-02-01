@@ -10,9 +10,6 @@ import interfaces.BankInterface;
 
 public class ATM {
 
-
-	private static long session_id;
-
 	public static void main (String[] args) {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
@@ -35,7 +32,6 @@ public class ATM {
 			case "login": 
 				try {
 					long id = bank.login(args[1], args[2]);
-					session_id = id;
 					System.out.println("Login Successful new sessionID: " + id);
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -47,8 +43,7 @@ public class ATM {
 
 			case "inquiry":
 				try{
-					double balance = bank.inquiry(Integer.parseInt(args[1]), session_id);
-					System.out.println("SessionID: " + session_id);
+					double balance = bank.inquiry(Integer.parseInt(args[1]), Long.parseLong(args[2]));
 					System.out.println("Balance: " + balance);
 				} catch (RemoteException e) {
 					e.printStackTrace();
