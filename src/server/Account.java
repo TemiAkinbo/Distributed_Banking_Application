@@ -12,7 +12,7 @@ public class Account implements Serializable {
 	private String username, password;
 	private double balance;
 	public int accountNum;
-	private long sessionID;
+	private long sessionID = 0;
 	private Timer timer;
 	private List<Transaction> transactions;
 	
@@ -42,7 +42,7 @@ public class Account implements Serializable {
 	
 	public void startNewSession() {
 		
-		this.sessionID = (int) Math.random() * 9000000;
+		this.sessionID = (long) Math.random() * 9000000;
 		this.sessionAlive = true;
 		
 		this.timer.scheduleAtFixedRate(new TimerTask() {
