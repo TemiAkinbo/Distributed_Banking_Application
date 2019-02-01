@@ -53,9 +53,10 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		for(Account account : accounts) {
 			if (username.equals(account.getUsername()) && password.equals(account.getPassword())) {
 				
-				System.out.println("Account: " + account.getAccNum() + " just logged in" );
 				account.startNewSession();
-								
+
+				System.out.println("Account: " + account.getAccNum() + " just logged in with Session ID " + account.getSessionID());
+
 				return account.getSessionID();
 			}
 		}
