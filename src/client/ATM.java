@@ -47,7 +47,7 @@ public class ATM {
 
 			case "inquiry":
 				try{
-					int balance = bank.inquiry(Integer.parseInt(args[1]), session_id);
+					double balance = bank.inquiry(Integer.parseInt(args[1]), session_id);
 					System.out.println("SessionID: " + session_id);
 					System.out.println("Balance: " + balance);
 				} catch (RemoteException e) {
