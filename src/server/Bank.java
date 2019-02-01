@@ -24,11 +24,20 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 
 	public Bank() throws RemoteException {
 		super();
+
+		Account account1 = new Account("User1", "pass1");
+		account1.setBalance(1500);
+
+		Account account2 = new Account("User2", "pass2");
+		account2.setBalance(1000);
+
+		Account account3 = new Account("User2", "pass2");
+		account3.setBalance(50);
 		
 		accounts = new ArrayList<Account>();		
-		accounts.add(new Account("User1", "pass1"));
-		accounts.add(new Account("User2", "pass2"));
-		accounts.add(new Account("User3", "pass3"));
+		accounts.add(account1);
+		accounts.add(account2);
+		accounts.add(account3);
 	}
 	
 	public static void main (String[] args) {
