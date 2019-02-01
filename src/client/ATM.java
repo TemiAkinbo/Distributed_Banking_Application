@@ -54,6 +54,20 @@ public class ATM {
 				}
 
 				break;
+				
+			case "deposit":
+				try {
+					double balance = bank.deposit(Integer.parseInt(args[1]), Double.parseDouble(args[2]), Long.parseLong(args[3]));
+					System.out.println("Successfully deposited $" + args[2] + " current balance: $" + balance);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (InvalidSessionException e) {
+					System.out.println("Your Session ID is invalid. Try logging in again.");
+				} catch (NumberFormatException nfe) {
+					System.out.println("Your Account number seems to be invalid. Please try re-entering it.");
+				}
+				break;				
+				
 
 			default: 
 				System.out.println("Invalid operation");

@@ -75,8 +75,14 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	@Override
 	public double deposit(int accountnum, double amount, long sessionID)
 			throws RemoteException, InvalidSessionException {
-		System.out.println("making a deposit");
-		return 10;
+		Account account = getAccount(accountnum, sessionID);
+		
+		Transaction deposit = new Transaction(account, "Deposit");
+		deposit.setAmount(amount);
+		
+		account.makeTransaction(deposit);
+		
+		return account.getBalance();
 	}
 
 	@Override
