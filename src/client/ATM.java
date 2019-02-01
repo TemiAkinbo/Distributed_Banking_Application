@@ -62,7 +62,7 @@ public class ATM {
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (InvalidSessionException e) {
-					e.printStackTrace();
+					System.out.println("Your Session ID is invalid. Try logging in again.");
 				} catch (NumberFormatException nfe) {
 					System.out.println("Your Account number seems to be invalid. Please try re-entering it.");
 				}
