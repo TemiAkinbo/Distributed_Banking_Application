@@ -42,7 +42,7 @@ public class Account implements Serializable {
 	
 	public void startNewSession() {
 		
-		this.sessionID = (long) Math.random() * 9000000;
+		this.sessionID = (long) (Math.random() * 9000000 + 1) ;
 		this.sessionAlive = true;
 		
 		this.timer.scheduleAtFixedRate(new TimerTask() {
