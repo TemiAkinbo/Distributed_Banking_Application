@@ -67,9 +67,6 @@ public class ATM {
 				} catch (NumberFormatException nfe) {
 					System.out.println("Your Account number seems to be invalid. Please try re-entering it.");
 				}
-				catch (InsufficientFundsException e) {
-					System.out.println("Insufficient funds for this transaction");
-				}
 				break;				
 				
 			case "withdraw":
