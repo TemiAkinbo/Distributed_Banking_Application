@@ -72,6 +72,10 @@ public class Transaction implements Serializable{
 		return this.balance;
 	}
 	
+	public Date getDate() {
+		return this.date;
+	}
+	
 	@Override
 	public String toString() {		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");		

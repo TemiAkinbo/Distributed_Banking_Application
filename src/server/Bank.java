@@ -109,8 +109,14 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	@Override
 	public StatementInterface getStatement(int accountnum, Date from, Date to, long sessionID)
 			throws RemoteException, InvalidSessionException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Account account = getAccount(accountnum, sessionID);
+		
+		System.out.println("Account Statement requested by : " + account.accountNum);
+		
+		Statement s = new Statement(account, from, to);
+		
+		return s;
 	}
 
 	public Account getAccount(int accountNumber, long sessionID) throws RemoteException, InvalidSessionException {

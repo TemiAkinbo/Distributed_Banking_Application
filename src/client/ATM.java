@@ -3,11 +3,14 @@ package client;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidLoginException;
 import exceptions.InvalidSessionException;
 import interfaces.BankInterface;
+import interfaces.StatementInterface;
 
 public class ATM {
 
@@ -83,7 +86,30 @@ public class ATM {
 					System.out.println("Insufficient funds for this transaction");
 				}
 				break;
-
+				
+			case "statement":
+				StatementInterface s = null;
+				try {
+				Date from = new SimpleDateFormat("dd/MM/yyyy").parse(args[2]);
+				Date to = new SimpleDateFormat("dd/MM/yyyy").parse(args[3]);
+				long sessionID = Long.parseLong(args[4]);
+				
+					s = bank.getStatement(Integer.parseInt(args[1]), from, to, sessionID);
+					System.out.println("Statement from " + args[2] + " to " + args[3]);
+					System.out.println("\n\n");
+					for(Object t : s.getTransactions()) {
+						System.out.println(t.toString());						
+					}
+					System.out.println("End of Statement");
+				} catch(RemoteException e) {
+					e.printStackTrace();
+				}catch(InvalidSessionException e) {
+					System.out.println("Your Session ID is invalid. Try logging in again.");
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			break;
+				
 			default: 
 				System.out.println("Invalid operation");
 			
