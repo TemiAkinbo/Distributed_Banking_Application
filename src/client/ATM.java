@@ -16,7 +16,7 @@ public class ATM {
 		String port = args[1];
 		int portNumber = Integer.parseInt(port);
 
-		System.setProperty("java.security.policy", "file:./allAccess.policy");
+		System.setProperty("java.security.policy", "file:allAccess.policy");
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());

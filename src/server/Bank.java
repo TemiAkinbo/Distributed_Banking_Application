@@ -44,7 +44,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	    String port = args[0];
 		int portNumber = Integer.parseInt(port);
 
-		System.setProperty("java.security.policy", "file:./allAccess.policy");
+		System.setProperty("java.security.policy", "file:allAccess.policy");
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
