@@ -22,7 +22,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	private static final long serialVersionUID = 1L;
 	private List<Account> accounts;
 
-	public Bank(int port) throws RemoteException {
+	public Bank() throws RemoteException {
 		super();
 
 		Account account1 = new Account("User1", "pass1");
@@ -52,7 +52,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		}
 
 		try {
-			Bank bank = new Bank(portNumber);
+			Bank bank = new Bank();
 			Registry registry = LocateRegistry.getRegistry(host, portNumber);
 			registry.rebind("Bank", bank);
 			
