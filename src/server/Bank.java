@@ -41,8 +41,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 	
 	public static void main (String[] args) throws RemoteException {
-	    String host = args[0];
-	    String port = args[1];
+	    String port = args[0];
 		int portNumber = Integer.parseInt(port);
 
 		System.setProperty("java.security.policy", "file:./allAccess.policy");
@@ -53,7 +52,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 
 		try {
 			Bank bank = new Bank();
-			Registry registry = LocateRegistry.getRegistry(host, portNumber);
+			Registry registry = LocateRegistry.getRegistry(portNumber);
 			registry.rebind("Bank", bank);
 			
 			System.out.println("Bank Server ready");
