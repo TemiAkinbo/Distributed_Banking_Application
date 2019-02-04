@@ -23,7 +23,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	private List<Account> accounts;
 
 	public Bank(int port) throws RemoteException {
-		super(port);
+		super();
 
 		Account account1 = new Account("User1", "pass1");
 		account1.setBalance(1500);
@@ -41,17 +41,19 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 	
 	public static void main (String[] args) throws RemoteException {
-		System.setProperty("java.rmi.server.hostname", "localhost");
-		System.setProperty("java.security.policy", "allAccess.policy");
-		int port = Integer.parseInt(args[0]);
+	    String host = args[0];
+	    String port = args[1];
+		int portNumber = Integer.parseInt(port);
+
+		System.setProperty("java.security.policy", "file:./allAccess.policy");
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
 		}
 
 		try {
-			Bank bank = new Bank(port);
-			Registry registry = LocateRegistry.getRegistry();
+			Bank bank = new Bank(portNumber);
+			Registry registry = LocateRegistry.getRegistry(host, portNumber);
 			registry.rebind("Bank", bank);
 			
 			System.out.println("Bank Server ready");
