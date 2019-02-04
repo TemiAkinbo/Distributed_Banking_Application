@@ -123,9 +123,9 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 				"";
 
 		for (Transaction transaction : transactions) {
-			if (transaction.getDate().compareTo(startDate) > 0 && transaction.getDate().compareTo(endDate) < 0) {
+			if (transaction.getDate().after(startDate) && transaction.getDate().before(endDate)) {
 				returnString += transaction.getDate().toString() + " " + transaction.getType() + " " +
-						transaction.getAmount() + "\n";
+						transaction.getAmount() + " balance " + transaction.getBalance() + "\n";
 			}
 		}
 
