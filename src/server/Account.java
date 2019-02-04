@@ -16,7 +16,7 @@ public class Account implements Serializable {
 	private Timer timer;
 	private List<Transaction> transactions;
 	
-	private static final int MAX_SESSION_LENGTH = 30;
+	private static final int MAX_SESSION_LENGTH = 5*60;
 	private static final long DELAY = 1000;
 	
 	private boolean sessionAlive;
