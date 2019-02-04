@@ -102,4 +102,8 @@ public class Account implements Serializable {
 		return this.sessionID;
 	}
 
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
 }

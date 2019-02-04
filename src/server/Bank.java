@@ -12,7 +12,6 @@ import exceptions.InsufficientFundsException;
 import exceptions.InvalidLoginException;
 import exceptions.InvalidSessionException;
 import interfaces.BankInterface;
-import interfaces.StatementInterface;
 
 public class Bank extends UnicastRemoteObject implements BankInterface {
 	
@@ -112,10 +111,25 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	}
 
 	@Override
-	public StatementInterface getStatement(int accountnum, Date from, Date to, long sessionID)
+	public String getStatement(int accountnum, Date startDate, Date endDate, long sessionID)
 			throws RemoteException, InvalidSessionException {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = getAccount(accountnum, sessionID);
+
+		List<Transaction> transactions = account.getTransactions();
+		String returnString = "*** Account Statement **** \n" +
+				"Account Number: " + accountnum + "\n" +
+				"Start Date: " + startDate.toString() + "\n" +
+				"End Date: " + endDate.toString() + "\n\n" +
+				"";
+
+		for (Transaction transaction : transactions) {
+			if (transaction.getDate().compareTo(startDate) > 0 && transaction.getDate().compareTo(endDate) < 0) {
+				returnString += transaction.getDate().toString() + " " + transaction.getType() + " " +
+						transaction.getAmount() + "\n";
+			}
+		}
+
+		return returnString;
 	}
 
 	public Account getAccount(int accountNumber, long sessionID) throws RemoteException, InvalidSessionException {
