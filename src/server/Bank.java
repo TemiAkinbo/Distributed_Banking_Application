@@ -40,14 +40,19 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		accounts.add(account3);
 	}
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) throws RemoteException {
+	    String port = args[0];
+		int portNumber = Integer.parseInt(port);
+
+		System.setProperty("java.security.policy", "file:allAccess.policy");
+
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
 		}
-		
+
 		try {
 			Bank bank = new Bank();
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry(portNumber);
 			registry.rebind("Bank", bank);
 			
 			System.out.println("Bank Server ready");

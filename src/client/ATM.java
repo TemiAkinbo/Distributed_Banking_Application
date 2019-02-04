@@ -12,15 +12,21 @@ import interfaces.BankInterface;
 public class ATM {
 
 	public static void main (String[] args) {
+		String host = args[0];
+		String port = args[1];
+		int portNumber = Integer.parseInt(port);
+
+		System.setProperty("java.security.policy", "file:allAccess.policy");
+
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
 		}
-		
+
 		BankInterface bank = null;
-		String operation = args[0];
+		String operation = args[2];
 
 		try {
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry(host, portNumber);
 			bank = (BankInterface) registry.lookup("Bank");
 		}
 		catch (Exception e) {
@@ -32,7 +38,7 @@ public class ATM {
 		switch(operation) {
 			case "login": 
 				try {
-					long id = bank.login(args[1], args[2]);
+					long id = bank.login(args[3], args[4]);
 					System.out.println("Login Successful new sessionID: " + id);
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -44,7 +50,7 @@ public class ATM {
 
 			case "inquiry":
 				try{
-					double balance = bank.inquiry(Integer.parseInt(args[1]), Long.parseLong(args[2]));
+					double balance = bank.inquiry(Integer.parseInt(args[3]), Long.parseLong(args[4]));
 					System.out.println("Balance: " + balance);
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -58,8 +64,8 @@ public class ATM {
 				
 			case "deposit":
 				try {
-					double balance = bank.deposit(Integer.parseInt(args[1]), Double.parseDouble(args[2]), Long.parseLong(args[3]));
-					System.out.println("Successfully deposited $" + args[2] + " current balance: $" + balance);
+					double balance = bank.deposit(Integer.parseInt(args[3]), Double.parseDouble(args[4]), Long.parseLong(args[5]));
+					System.out.println("Successfully deposited $" + args[4] + " current balance: $" + balance);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (InvalidSessionException e) {
@@ -71,8 +77,8 @@ public class ATM {
 				
 			case "withdraw":
 				try {
-					double balance = bank.withdraw(Integer.parseInt(args[1]), Double.parseDouble(args[2]), Long.parseLong(args[3]));
-					System.out.println("Successfully withdrawn $" + args[2] + " current balance: $" + balance);
+					double balance = bank.withdraw(Integer.parseInt(args[3]), Double.parseDouble(args[4]), Long.parseLong(args[5]));
+					System.out.println("Successfully withdrawn $" + args[4] + " current balance: $" + balance);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (InvalidSessionException e) {
