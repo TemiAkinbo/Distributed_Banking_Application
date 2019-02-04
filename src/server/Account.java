@@ -101,5 +101,9 @@ public class Account implements Serializable {
 	public long getSessionID() {
 		return this.sessionID;
 	}
+	
+	public List<Transaction> getTransactions() {
+		return this.transactions;
+	}
 
 }
