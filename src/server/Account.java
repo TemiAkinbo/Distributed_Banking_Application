@@ -30,7 +30,6 @@ public class Account implements Serializable {
 		this.password = password;
 		this.accountNum = nxtAccNum;
 		this.balance = 0;
-		this.timer = new Timer();
 		
 		nxtAccNum++;
 		
@@ -44,6 +43,7 @@ public class Account implements Serializable {
 	public void startNewSession() {
 		
 		this.sessionID = (long) (Math.random() * 9000000 + 1) ;
+		this.timer = new Timer();
 		this.sessionAlive = true;
 		
 		this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -54,7 +54,6 @@ public class Account implements Serializable {
 				
 				if(timeAlive == MAX_SESSION_LENGTH) {
 					sessionAlive = false;
-					timer.cancel();
 				}
 				
 								

@@ -2,7 +2,6 @@ package interfaces;
 
 import java.rmi.*;
 import java.util.Date;
-import server.Account;
 import exceptions.*;
 
 public interface BankInterface extends Remote {

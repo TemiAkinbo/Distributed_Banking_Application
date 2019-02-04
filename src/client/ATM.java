@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import exceptions.InsufficientFundsException;
 import exceptions.InvalidLoginException;
 import exceptions.InvalidSessionException;
 import interfaces.BankInterface;
@@ -68,6 +69,20 @@ public class ATM {
 				}
 				break;				
 				
+			case "withdraw":
+				try {
+					double balance = bank.withdraw(Integer.parseInt(args[1]), Double.parseDouble(args[2]), Long.parseLong(args[3]));
+					System.out.println("Successfully withdrawn $" + args[2] + " current balance: $" + balance);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (InvalidSessionException e) {
+					System.out.println("Your Session ID is invalid. Try logging in again.");
+				} catch (NumberFormatException nfe) {
+					System.out.println("Your Account number seems to be invalid. Please try re-entering it.");
+				} catch (InsufficientFundsException e) {
+					System.out.println("Insufficient funds for this transaction");
+				}
+				break;
 
 			default: 
 				System.out.println("Invalid operation");
