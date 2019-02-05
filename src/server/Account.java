@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 //Account class holds information on account details 
-public class Account extends TimerTask implements Serializable {
+public class Account implements Serializable {
 
 	private static final long serialVersionUID = 227L;
 
@@ -83,12 +83,5 @@ public class Account extends TimerTask implements Serializable {
 		return transactions;
 	}
 
-	@Override
-	public void run() {
-		
-
-			
-		
-	}
 
 }
