@@ -5,22 +5,17 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 //Account class holds information on account details 
-public class Account implements Serializable {
+public class Account extends TimerTask implements Serializable {
 
 	private static final long serialVersionUID = 227L;
 
 	private String username, password;
 	private double balance;
 	public int accountNum;
-	private long sessionID = 0;
-	private Timer timer;
-	private List<Transaction> transactions;
+	private List<Transaction> transactions;	
+
+	private Session session;
 	
-	private static final int MAX_SESSION_LENGTH = 5*60;
-	private static final long DELAY = 1000;
-	
-	private boolean sessionAlive;
-	private int timeAlive;
 	private static int nxtAccNum = 5628291;
 	
 	
@@ -42,25 +37,7 @@ public class Account implements Serializable {
 	
 	public void startNewSession() {
 		
-		this.sessionID = (long) (Math.random() * 9000000 + 1) ;
-		this.timer = new Timer();
-		this.sessionAlive = true;
-		
-		this.timer.scheduleAtFixedRate(new TimerTask() {
-
-			@Override
-			public void run() {
-				timeAlive++;
-				
-				if(timeAlive == MAX_SESSION_LENGTH) {
-					sessionAlive = false;
-				}
-				
-								
-			}
-			
-		}, new Date(System.currentTimeMillis()), DELAY);
-		
+		session = new Session();
 	}
 	
 	
@@ -95,15 +72,23 @@ public class Account implements Serializable {
 	}
 	
 	public boolean getSessionStatus() {
-		return this.sessionAlive;
+		return this.session.getSessionActive();
 	}
 	
 	public long getSessionID() {
-		return this.sessionID;
+		return this.session.getSessionID();
 	}
 
 	public List<Transaction> getTransactions() {
 		return transactions;
+	}
+
+	@Override
+	public void run() {
+		
+
+			
+		
 	}
 
 }
