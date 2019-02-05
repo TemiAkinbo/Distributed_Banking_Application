@@ -4,6 +4,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidLoginException;
 import exceptions.InvalidSessionException;
@@ -90,7 +94,26 @@ public class ATM {
 				}
 				break;
 
-			default: 
+			case "statement":
+				try {
+					SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+					Date startDate = dateFormatter.parse(args[4]);
+					Date endDate = dateFormatter.parse(args[5]);
+					String statement = bank.getStatement(Integer.parseInt(args[3]), startDate, endDate, Integer.parseInt(args[6]));
+					System.out.println(statement);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (InvalidSessionException e) {
+					System.out.println("Your Session ID is invalid. Try logging in again.");
+				} catch (NumberFormatException nfe) {
+					System.out.println("Your Account number seems to be invalid. Please try re-entering it.");
+				} catch (ParseException e) {
+					System.out.println("Your start or end date is incorrectly formatted. Ensure all dates are " +
+							"formatted as 'dd/MM/yyyy'.");
+				}
+				break;
+
+			default:
 				System.out.println("Invalid operation");
 			
 		}
