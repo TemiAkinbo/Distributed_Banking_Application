@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -113,23 +114,27 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 	@Override
 	public String getStatement(int accountnum, Date startDate, Date endDate, long sessionID)
 			throws RemoteException, InvalidSessionException {
-		Account account = getAccount(accountnum, sessionID);
-
-		List<Transaction> transactions = account.getTransactions();
-		String returnString = "*** Account Statement **** \n" +
-				"Account Number: " + accountnum + "\n" +
-				"Start Date: " + startDate.toString() + "\n" +
-				"End Date: " + endDate.toString() + "\n\n" +
-				"";
 
 		boolean firstTransaction = true;
+		double openingBal;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		Account account = getAccount(accountnum, sessionID);
+		Transaction lastTransaction = null;
+
+		List<Transaction> transactions = account.getTransactions();
+		String returnString = "*** Account Statement **** \n\n" +
+				"Account Owner: " + account.getUsername() + "\n" +
+				"Account Number: " + accountnum + "\n" +
+				"Start Date : " + dateFormat.format(startDate) + "\n" +
+				"End Date : " + dateFormat.format(endDate) + "\n\n" +
+				"";
 
 		for (Transaction transaction : transactions) {
 
 			if (transaction.getDate().after(startDate) && transaction.getDate().before(endDate)) {
 
 				if (firstTransaction) {
-					double openingBal;
 
 					if (transaction.getType().equals("Deposit")) {
 						openingBal = transaction.getBalance() - transaction.getAmount();
@@ -137,14 +142,21 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 						openingBal = transaction.getBalance() + transaction.getAmount();
 					}
 
-					returnString += startDate.toString() + " OPENING BALANCE : " + openingBal + "\n";
+					returnString += dateFormat.format(startDate) + " | OPENING BALANCE : " + openingBal + "\n\n";
 
 					firstTransaction = false;
 				}
 
-				returnString += transaction.getDate().toString() + " " + transaction.getType() + " " +
-						transaction.getAmount() + " balance " + transaction.getBalance() + "\n";
+				returnString += dateFormat.format(transaction.getDate()) + " - " + transaction.getType() + " : " +
+						transaction.getAmount() + " | balance : " + transaction.getBalance() + "\n";
 			}
+
+			lastTransaction = transaction;
+
+		}
+
+		if (lastTransaction != null) {
+			returnString += "\n" + dateFormat.format(endDate) + " | CLOSING BALANCE : " + lastTransaction.getBalance();
 		}
 
 		return returnString;
