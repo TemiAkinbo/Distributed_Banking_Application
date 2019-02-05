@@ -125,7 +125,8 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		boolean firstTransaction = true;
 
 		for (Transaction transaction : transactions) {
-			if (transaction.getDate().compareTo(startDate) > 0 && transaction.getDate().compareTo(endDate) < 0) {
+
+			if (transaction.getDate().after(startDate) && transaction.getDate().before(endDate)) {
 
 				if (firstTransaction) {
 					double openingBal;
@@ -142,7 +143,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 				}
 
 				returnString += transaction.getDate().toString() + " " + transaction.getType() + " " +
-						transaction.getAmount() + "\n";
+						transaction.getAmount() + " balance " + transaction.getBalance() + "\n";
 			}
 		}
 
