@@ -18,7 +18,7 @@ public class Account implements Serializable {
 	
 	private static int nxtAccNum = 5628291;
 	
-	
+	//Constructor
 	public Account (String username, String password ) throws RemoteException {
 		this.transactions = new ArrayList<>();
 		this.username = username;
@@ -30,11 +30,13 @@ public class Account implements Serializable {
 		
 	}
 	
+	//add Transaction to transaction list and update account balance
 	public void makeTransaction(Transaction t) {
 		this.transactions.add(t);
 		this.setBalance(t.getBalance());
 	}
 	
+	//called when a User logs in to start a new session
 	public void startNewSession() {
 		
 		session = new Session();

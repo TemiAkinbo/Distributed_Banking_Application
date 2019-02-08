@@ -16,6 +16,7 @@ public class Transaction implements Serializable{
 	private double balance;
 	private Date date;
 	
+	//Constructor
 	public Transaction(Account acc) {
 		this.balance = 0;
 		this.account = acc;
@@ -31,7 +32,7 @@ public class Transaction implements Serializable{
 		return this.type;
 	}
 	
-	public void setAmount(double amount) throws InsufficientFundsException{
+/*	public void setAmount(double amount) throws InsufficientFundsException{
 		this.amount = amount;
 		
 		if (this.type.equals("Deposit")) {
@@ -45,7 +46,7 @@ public class Transaction implements Serializable{
 			}
 		}
 		
-	}
+	} */
 	
 	public void deposit(double amount) {		
 		this.type = "Deposit";

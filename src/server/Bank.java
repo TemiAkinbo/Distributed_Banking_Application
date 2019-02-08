@@ -17,11 +17,14 @@ import interfaces.BankInterface;
 public class Bank extends UnicastRemoteObject implements BankInterface {
 	
 	/**
-	 * 
+	 * The Bank Class is the server of the RMI application, 
+	 * this program must be started before any clients can
+	 * be ran.
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Account> accounts;
 
+	//Constructor
 	public Bank() throws RemoteException {
 		super();
 
@@ -40,6 +43,7 @@ public class Bank extends UnicastRemoteObject implements BankInterface {
 		accounts.add(account3);
 	}
 	
+	// MAIN METHOD
 	public static void main (String[] args) throws RemoteException {
 	    String port = args[0];
 		int portNumber = Integer.parseInt(port);
